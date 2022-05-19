@@ -22,6 +22,7 @@
     "electron": "18.0.3",
     "electron-builder": "^23.0.3",
     "execa": "^6.1.0",
+    "fs-extra": "^10.1.0",
     "lowdb": "^2.1.0",
     "postcss": "^8.4.13",
     "react": "^18.0.0",
