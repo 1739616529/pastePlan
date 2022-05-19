@@ -1,5 +1,5 @@
 import { JSONDB } from '../JSONDB'
-
+import { OptionDefaultData } from 'project/types/setting'
 const file_path = JSONDB.getJSONDBPath('option.json')
 const db = new JSONDB<OptionDefaultData>(file_path)
 // win		Ctrl		Win			Alt
