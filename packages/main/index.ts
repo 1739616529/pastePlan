@@ -4,7 +4,8 @@ import { useMainWin } from './module/home'
 import { clearWins } from './lib/window'
 import { useTrayMenu } from './module/tray'
 import './samples/npm-esm-packages'
-import './lowdb/option/index'
+import { useSettingWin } from './module/setting'
+
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration()
 
@@ -15,10 +16,11 @@ if (!app.requestSingleInstanceLock()) {
 	app.quit()
 	process.exit(0)
 }
-
+console.log(app.getLoginItemSettings())
 app.whenReady().then(() => {
-	useMainWin()
+	// useMainWin()
 	useTrayMenu()
+	useSettingWin()
 })
 
 app.on('window-all-closed', () => {
