@@ -1,4 +1,5 @@
+export type ShortcutKey = [string, string, ?string]
 export interface OptionDefaultData {
-	showHomeShortcut: string
+	showHomeShortcut: ShortcutKey
 	selfStart: boolean
 }
