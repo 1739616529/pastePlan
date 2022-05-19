@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import App from './App'
 import './samples/preload-module'
 import './styles/index.css'
-
+import './assets/icon-font.js'
 const root = createRoot(document.getElementById('root')!)
 
 root.render(
@@ -12,4 +12,4 @@ root.render(
   </StrictMode>
 )
 
-window.removeLoading()
+if (window.removeLoading) window.removeLoading()
