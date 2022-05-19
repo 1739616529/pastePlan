@@ -42,6 +42,7 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			src: join(__dirname, 'src'),
+			project: join(__dirname, '../../'),
 		},
 	},
 	server: {
