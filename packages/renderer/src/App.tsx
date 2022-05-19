@@ -12,5 +12,7 @@ const App = () => {
     </HashRouter>
   )
 }
-
+// window.onkeydown = function (e) {
+//   console.log(e)
+// }
 export default App
