@@ -1,16 +1,15 @@
-import { app, shell, ipcMain, screen } from 'electron'
+import { app, shell, ipcMain, screen, globalShortcut } from 'electron'
 import { useLoadWinPath, useWin } from '../lib/window'
 import { join } from 'path'
 
 function useMainWin() {
-	let win = useWin('main')({
+	let win = useWin('home')({
 		title: 'Main window',
 		frame: false,
 		width: 300,
 		height: 500,
-		webPreferences: {
-			preload: join(__dirname, '../preload/index.cjs'),
-		},
+		movable: false,
+		skipTaskbar: false,
 	})
 	win.webContents.openDevTools()
 	const url = useLoadWinPath('home')
