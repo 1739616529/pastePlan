@@ -9,7 +9,7 @@ function useTrayMenu() {
 		{
 			label: '测试',
 			click: useSettingWin,
-			accelerator: 'Alt+Cmd+I',
+			accelerator: 'alt+command+i',
 		},
 	])
 	tray.setToolTip('test tray menu')
