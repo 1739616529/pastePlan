@@ -21,7 +21,7 @@ function useSettingWin() {
 		console.log(data)
 	})
 	ipcMain.handle('getSetting', (e, data) => {
-		console.log(data)
+		return db.data
 	})
 	// win.setWindowButtonVisibility(true)
 }
