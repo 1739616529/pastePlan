@@ -1,9 +1,15 @@
 import { BrowserWindow, BrowserWindowConstructorOptions, app } from 'electron'
-import { resolve } from 'path'
-import { PageList } from 'packages/types/pageList'
+import { resolve, join } from 'path'
+import { PageList } from 'types/window'
 
 export interface winOption extends BrowserWindowConstructorOptions {}
-const option: winOption = {}
+const option: winOption = {
+	resizable: false,
+	acceptFirstMouse: true,
+	webPreferences: {
+		preload: join(__dirname, '../preload/index.cjs'),
+	},
+}
 
 let wins: PageList = {}
 
