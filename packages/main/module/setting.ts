@@ -4,7 +4,7 @@ import { useLowDB } from '../config'
 const db = useLowDB()['option']
 const page_name = 'setting'
 function useSettingWin() {
-	const win = useWin(page_name)({
+	const { win, isExist } = useWin(page_name)({
 		width: 500,
 		height: 500,
 		title: '设置',
@@ -13,17 +13,19 @@ function useSettingWin() {
 		visualEffectState: 'active',
 		vibrancy: 'hud', // fullscreen-ui header hud popover sidebar under-window
 	})
+
+	// 如果存在
+	if (isExist) return win.show()
+
 	win.loadURL(useLoadWinPath(page_name))
 	win.webContents.openDevTools()
 
-	console.log(db.data)
 	ipcMain.on('setSetting', (e, data) => {
 		console.log(data)
 	})
 	ipcMain.handle('getSetting', (e, data) => {
 		return db.data
 	})
-	// win.setWindowButtonVisibility(true)
 }
 
 export { useSettingWin }
