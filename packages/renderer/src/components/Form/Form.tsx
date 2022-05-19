@@ -25,7 +25,6 @@ const internalForm = (props: FormProps) => {
 
 
 const Item = (props: FormItemProps) => {
-	console.log(props)
 	const context = useContext(FormContext)
 	return (
 		<div className={format_className('flex items-center', context['label-wrap'] ? 'flex-col' : '')}>
