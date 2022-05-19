@@ -27,7 +27,7 @@ const internalForm = (props: FormProps) => {
 const Item = (props: FormItemProps) => {
 	const context = useContext(FormContext)
 	return (
-		<div className={format_className('flex items-center', context['label-wrap'] ? 'flex-col' : '')}>
+		<div className={format_className('flex ', context['label-wrap'] ? 'flex-col justify-center' : 'items-center ')}>
 			<label className={format_className(context['label-width'])} >{props.label}</label>
 			{props.children}
 		</div>
