@@ -2,6 +2,7 @@ import { useState } from "react"
 import { format_className } from "src/util/tools"
 import Icon from "src/components/Icon/Icon"
 import Form from "src/components/Form/Form"
+import { OptionDefaultData } from 'project/types/setting'
 enum icons {
 	'icon-shezhi' = 'icon-shezhi',
 	"icon-kuaijiejian-" = 'icon-kuaijiejian-'
@@ -15,8 +16,53 @@ const menus: menu[] = [
 	{ label: '快捷键', icon: icons["icon-kuaijiejian-"] },
 ]
 
+const { ipcRenderer } = window
+
+
+
+
+
+
+
+
+let option: OptionDefaultData | undefined
+function get_option_fun(cb: (option: OptionDefaultData) => void) {
+	if (option) return cb(option)
+	ipcRenderer.invoke('getSetting').then((val: OptionDefaultData) => {
+		option = val
+		cb(val)
+	})
+}
+
+
+
+
+
+
+
+
 function Setting() {
 	const [active_menu, set_active_menu] = useState<icons>(menus[0].icon)
+	const [options, set_options] = useState<OptionDefaultData | null>(null)
+
+
+
+
+
+	if (options === null) {
+		get_option_fun((val) => {
+			set_options(val)
+			console.log(val)
+		})
+	}
+
+
+
+
+
+
+
+
 	return (<div className="relative  select-none w-screen h-screen drag flex text-sm font-medium text-white" >
 		<div className="flex bg-black bg-opacity-40 flex-col justify-center items-center" style={{ "width": '69px' }}>
 
