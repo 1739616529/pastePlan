@@ -15,14 +15,23 @@ let wins: PageList = {}
 
 /** 第一个传入要创建的 窗口名称 第二个是自定义参数 返回传入名称的窗口实例 如果存在不会创建新的 */
 function useWin(win_name: keyof PageList) {
-	let win = wins[win_name]
-	return function (custom_option: winOption = {}): BrowserWindow {
-		if (win) {
+	return function (custom_option: winOption = {}): {
+		win: BrowserWindow
+		isExist: boolean
+	} {
+		let isExist = false
+		let win = wins[win_name]
+		if (win !== undefined) {
 			console.error(`Window ${win_name} already exists`)
-			return win
+			isExist = true
+		} else {
+			win = new BrowserWindow({
+				...option,
+				...custom_option,
+			})
+			wins[win_name] = win
 		}
-		win = new BrowserWindow({ ...option, ...custom_option })
-		return win
+		return { win, isExist }
 	}
 }
 
