@@ -1,3 +1,4 @@
+/* @import url('//at.alicdn.com/t/font_3410869_fn50a2kn56s.css'); */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,4 +14,23 @@ body {
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 		monospace;
+}
+
+.drag {
+	-webkit-app-region: drag;
+}
+.no-drag {
+	-webkit-app-region: no-drag;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+.cup {
+	cursor: pointer;
+}
+
+svg {
+	fill: currentColor;
 }
