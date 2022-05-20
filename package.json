@@ -1,10 +1,8 @@
 {
   "name": "vite-react-electron",
-  "productName": "Electron",
+  "productName": "pastePlan",
   "private": true,
   "version": "1.0.0",
-  "description": "Vite React Electron boilerplate.",
-  "author": "草鞋没号 <308487730@qq.com>",
   "license": "MIT",
   "main": "dist/main/index.cjs",
   "scripts": {
