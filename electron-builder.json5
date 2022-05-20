@@ -2,9 +2,9 @@
  * @see https://www.electron.build/configuration/configuration
  */
 {
-	appId: 'YourAppID',
-	productName: 'YourAppName',
-	copyright: 'Copyright © 2022 ${author}',
+	appId: 'com.apple.appleid',
+	productName: 'pastePlan',
+	copyright: 'Copyright © 2022 ',
 	asar: false,
 	directories: {
 		output: 'release/${version}',
