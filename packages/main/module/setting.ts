@@ -1,8 +1,11 @@
-import { useLoadWinPath, useWin } from '../lib/window'
-import { ipcMain } from 'electron'
+import { useLoadWinPath, useWin, clearWin } from '../lib/window'
+import { ipcMain, app } from 'electron'
+import { uploadTrayMenu } from '../module/tray'
 import { useLowDB } from '../config'
+import { is_have_key } from 'project/packages/util/tools'
 const db = useLowDB()['option']
 const page_name = 'setting'
+
 function useSettingWin() {
 	const { win, isExist } = useWin(page_name)({
 		width: 500,
@@ -21,10 +24,32 @@ function useSettingWin() {
 	win.webContents.openDevTools()
 
 	ipcMain.on('setSetting', (e, data) => {
-		console.log(data)
+		db.setData(data).write()
+		if (is_have_key(data, 'selfStart')) {
+			app.setLoginItemSettings({
+				openAtLogin: data['selfStart'],
+				openAsHidden: true,
+			})
+
+			console.log(app.getLoginItemSettings())
+		}
+
+		if (is_have_key(data, 'showHomeShortcut')) uploadTrayMenu()
 	})
+
 	ipcMain.handle('getSetting', (e, data) => {
 		return db.data
+	})
+
+	ipcMain.handle('getName', (e, data) => {
+		return process.execPath
+	})
+
+	win.on('closed', () => {
+		clearWin(page_name)
+		ipcMain.removeHandler('getSetting')
+		ipcMain.removeHandler('getName')
+		ipcMain.removeAllListeners('setSetting')
 	})
 }
 
