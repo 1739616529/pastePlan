@@ -6,6 +6,10 @@ export interface winOption extends BrowserWindowConstructorOptions {}
 const option: winOption = {
 	resizable: false,
 	acceptFirstMouse: true,
+	fullscreen: false,
+	fullscreenable: false,
+	// skipTaskbar: false,
+	// focusable: false,
 	webPreferences: {
 		preload: join(__dirname, '../preload/index.cjs'),
 	},
@@ -44,13 +48,17 @@ function clearWins() {
 	wins = {}
 }
 
+function clearWin(win_name: keyof PageList) {
+	delete wins[win_name]
+}
+
 function useLoadWinPath(path: string) {
 	return app.isPackaged
 		? `file://${resolve(
 				__dirname,
-				`./renderer/index.html/#/${path}`
+				`../renderer/index.html#/${path}`
 		  )}`
-		: `http://${process.env['VITE_DEV_SERVER_HOST']}:${process.env['VITE_DEV_SERVER_PORT']}/#/${path}`
+		: `http://${process.env['VITE_DEV_SERVER_HOST']}:${process.env['VITE_DEV_SERVER_PORT']}#/${path}`
 }
 
-export { useWin, getWins, clearWins, useLoadWinPath }
+export { useWin, getWins, clearWins, useLoadWinPath, clearWin }
