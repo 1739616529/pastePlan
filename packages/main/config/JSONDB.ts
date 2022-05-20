@@ -21,7 +21,6 @@ export class JSONDB<T> {
 		this.file_exist = JSONDB.isExistFile(this.db_path)
 		if (!this.file_exist) return
 		this.read()
-		console.log('constructor')
 	}
 
 	public get data() {
@@ -44,7 +43,6 @@ export class JSONDB<T> {
 	}
 
 	public read() {
-		console.log('data_buffer')
 		if (this._data) return
 		const data_buffer = readFileSync(this.db_path, 'utf8')
 		this._data = JSON.parse(data_buffer)
@@ -58,7 +56,7 @@ export class JSONDB<T> {
 	}
 
 	static getJSONDBPath(...args: string[]) {
-		return join(app.getPath('userData'), 'config', ...args)
+		return join(app.getPath('userData'), 'JSON_db', ...args)
 	}
 
 	static isExistFile(path: string): boolean {
