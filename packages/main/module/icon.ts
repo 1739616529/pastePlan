@@ -1,17 +1,16 @@
 import { join } from 'path'
 import { nativeImage, NativeImage } from 'electron'
+let path = join(__dirname, '../renderer/images/trayTemplate.png')
+let img = nativeImage.createFromPath(path)
+if (img.isTemplateImage()) img.setTemplateImage(true)
 
-let internal = {
-	img: nativeImage.createFromPath(
-		join(__dirname, '../renderer/images/tray.png')
-	),
-	useTrayico,
-}
 function useTrayico() {
-	return internal.img.resize({ width: 17, height: 17 })
+	const tray_ico = img.resize({ width: 17, height: 17 })
+	tray_ico.setTemplateImage(true)
+	return tray_ico
 }
 function useIcon() {
-	return internal
+	return { img, path, useTrayico }
 }
 
 export { useIcon }
