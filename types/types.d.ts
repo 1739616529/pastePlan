@@ -5,3 +5,7 @@ declare namespace NodeJS {
 		readonly VITE_DEV_SERVER_PORT: string
 	}
 }
+
+type KeyValue<T> = {
+	[K in keyof T]: T[K]
+}
