@@ -5,7 +5,7 @@ export interface OptionDefaultData {
 	selfStart: false
 }
 
-export interface OptionData {
+interface OptionData {
 	showHomeShortcut: ShortcutKey
 	selfStart: boolean
 }
