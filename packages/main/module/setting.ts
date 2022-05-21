@@ -2,9 +2,17 @@ import { useLoadWinPath, useWin, clearWin } from '../lib/window'
 import { ipcMain, app } from 'electron'
 import { uploadTrayMenu } from '../module/tray'
 import { useLowDB } from '../config'
+import { useSelfStart } from './selfStart'
 import { is_have_key } from 'project/packages/util/tools'
+import { OptionData } from 'project/types/setting'
 const db = useLowDB()['option']
 const page_name = 'setting'
+
+db.on('dataChange', (data) => {
+	if (is_have_key(data.showHomeShortcut)) useSelfStart(data)
+
+	if (is_have_key(data.showHomeShortcut)) uploadTrayMenu()
+})
 
 function useSettingWin() {
 	const { win, isExist } = useWin(page_name)({
@@ -23,18 +31,8 @@ function useSettingWin() {
 	win.loadURL(useLoadWinPath(page_name))
 	win.webContents.openDevTools()
 
-	ipcMain.on('setSetting', (e, data) => {
+	ipcMain.on('setSetting', (e, data: KeyValue<OptionData>) => {
 		db.setData(data).write()
-		if (is_have_key(data, 'selfStart')) {
-			app.setLoginItemSettings({
-				openAtLogin: data['selfStart'],
-				openAsHidden: true,
-			})
-
-			console.log(app.getLoginItemSettings())
-		}
-
-		if (is_have_key(data, 'showHomeShortcut')) uploadTrayMenu()
 	})
 
 	ipcMain.handle('getSetting', (e, data) => {
