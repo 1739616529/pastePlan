@@ -8,8 +8,7 @@ const option: winOption = {
 	acceptFirstMouse: true,
 	fullscreen: false,
 	fullscreenable: false,
-	// skipTaskbar: false,
-	// focusable: false,
+	skipTaskbar: true,
 	webPreferences: {
 		preload: join(__dirname, '../preload/index.cjs'),
 	},
