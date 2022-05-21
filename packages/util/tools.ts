@@ -25,8 +25,8 @@ export function debounce(fn: Function, delay: number = 500) {
 	}
 }
 
-export function is_have_key(obj: { [key: string]: any }, ...args: string[]) {
+export function is_have_key(...args: unknown[]) {
 	return args.some((v) => {
-		return obj[v] !== undefined
+		return v !== undefined
 	})
 }
