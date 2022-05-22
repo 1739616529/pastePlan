@@ -24,9 +24,3 @@ export function debounce(fn: Function, delay: number = 500) {
 		}, delay)
 	}
 }
-
-export function is_have_key(...args: unknown[]) {
-	return args.some((v) => {
-		return v !== undefined
-	})
-}
