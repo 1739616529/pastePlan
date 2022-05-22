@@ -2,8 +2,8 @@ import { useLowDB } from 'main/config/index'
 import { app, shell, ipcMain, screen, globalShortcut, dialog } from 'electron'
 import { useLoadWinPath, useWin } from '../lib/window'
 import { join } from 'path'
-import readline from 'readline'
 import { useHomeShortcut } from './shortcut'
+import { getClipBoardData, saveToClipboard } from './clipboard'
 const db = useLowDB()['option']
 function useMainWin() {
 	const { win, isExist } = useWin('home')({
@@ -13,9 +13,12 @@ function useMainWin() {
 		height: 500,
 		// movable: false,
 		skipTaskbar: false,
-		focusable: false,
+		// focusable: false,
 		alwaysOnTop: true,
 		show: false,
+		webPreferences: {
+			webSecurity: false,
+		},
 	})
 
 	// 如果存在
@@ -38,20 +41,25 @@ function useMainWin() {
 		if (url.startsWith('https:')) shell.openExternal(url)
 		return { action: 'deny' }
 	})
-
-	globalShortcut.register('Command+C', () => {
-		console.log('copy')
-	})
+	console.log(process.pid)
 	useHomeShortcut()
 
-	// useMouseClick(() => {
-	// 	console.log('mouseClick is ok')
-	// })
-	// useKeyboardClick(
-	// 	() => {
-	// 		console.log('control')
-	// 	},
-	// 	{ key: ['Control', 'C'] }
-	// )
+	win.on('show', () => {
+		console.log('show')
+		win.webContents.send('home', {
+			type: 'clipboardData',
+			data: getClipBoardData(),
+		})
+	})
+
+	win.on('blur', () => {
+		console.log('blur')
+		// win.hide()
+	})
+
+	ipcMain.on('save-clipboard-data', (e, data: number) => {
+		saveToClipboard(data)
+		win.hide()
+	})
 }
 export { useMainWin }
