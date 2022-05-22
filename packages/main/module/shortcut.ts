@@ -44,33 +44,3 @@ export function updateHomeShortcut() {
 	unShortcut()
 	useHomeShortcut()
 }
-
-// function useRsHook() {
-// 	if (rs_instanse) return rs_instanse
-// 	function rs_instanse(cb: cbFun) {
-// 		rsHook((err: any, ...e: rsEvents) => {
-// 			let key = e[3].replace(/(Key|Left|Right)/, '')
-// 			if (key === 'Meta') key = 'Command'
-// 			cb(e, key)
-// 		})
-// 	}
-// 	return rs_instanse
-// }
-
-// export function useMouseClick(fn: cbFun) {
-// 	useRsHook()((e, key) => {
-// 		if (e[0] === EventType['mousedown']) fn(e, key)
-// 	})
-// }
-
-// export function useKeyboardClick(fn: Function, option: RsOption) {
-// 	let active_key = 0
-// 	useRsHook()((e, key) => {
-// 		if (option.key?.indexOf(key) > -1) {
-// 			if (e[0] === EventType['keydown']) active_key++
-// 			if (e[0] === EventType['keyup']) active_key--
-// 			console.log(active_key, e)
-// 			if (active_key >= option.key.length) fn()
-// 		}
-// 	})
-// }
