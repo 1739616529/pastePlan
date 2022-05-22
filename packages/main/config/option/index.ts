@@ -7,6 +7,7 @@ const db = new JSONDB<OptionData>(file_path)
 let default_data: OptionDefaultData = {
 	showHomeShortcut: ['Command', 'Alt', 'U'],
 	selfStart: false,
+	homeWinFixed: false,
 }
 
 db.default(default_data)
