@@ -10,7 +10,7 @@ const db = useLowDB()['option']
 function create_menu_template(): Menu {
 	return Menu.buildFromTemplate([
 		{
-			label: '测试',
+			label: '设置',
 			click: useSettingWin,
 			accelerator: 'command+,',
 		},
