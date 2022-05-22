@@ -3,15 +3,20 @@ import { ipcMain, app } from 'electron'
 import { uploadTrayMenu } from '../module/tray'
 import { useLowDB } from '../config'
 import { useSelfStart } from './selfStart'
-import { is_have_key } from 'project/packages/util/tools'
 import { OptionData } from 'project/types/setting'
+import { updateHomeShortcut } from './shortcut'
 const db = useLowDB()['option']
 const page_name = 'setting'
 
 db.on('dataChange', (data) => {
-	if (is_have_key(data.showHomeShortcut)) useSelfStart(data)
-
-	if (is_have_key(data.showHomeShortcut)) uploadTrayMenu()
+	if ('showHomeShortcut' in data) {
+		uploadTrayMenu()
+		updateHomeShortcut()
+	}
+	if ('selfStart' in data) {
+		useSelfStart(data)
+		uploadTrayMenu()
+	}
 })
 
 function useSettingWin() {
