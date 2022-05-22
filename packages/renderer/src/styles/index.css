@@ -34,3 +34,14 @@ code {
 svg {
 	fill: currentColor;
 }
+.red {
+	color: red;
+}
+
+.hidden-scroll-bar::-webkit-scrollbar {
+	display: none; /* Chrome Safari */
+}
+
+.object-fit-contain {
+	object-fit: contain;
+}
