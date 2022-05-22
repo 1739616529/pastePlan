@@ -31,6 +31,10 @@ function useWin(win_name: keyof PageList) {
 			win = new BrowserWindow({
 				...option,
 				...custom_option,
+				webPreferences: {
+					...option.webPreferences,
+					...custom_option.webPreferences,
+				},
 			})
 			wins[win_name] = win
 		}
