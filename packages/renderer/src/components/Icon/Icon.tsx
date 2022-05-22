@@ -7,7 +7,7 @@ interface props {
 
 function Icon(props: props) {
 	return (
-		<svg className={format_className("overflow-hidden", props.className)} >
+		<svg className={format_className("overflow-hidden w-5 h-5", props.className)} >
 			<use xlinkHref={"#" + props.icon}></use>
 		</svg>
 	)
