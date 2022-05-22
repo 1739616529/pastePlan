@@ -3,24 +3,10 @@ import { useLowDB } from '../config/index'
 import { getWins } from '../lib/window'
 // const { rsHook } = require('@tcardlab/rshook')
 const option = useLowDB()['option']
-export enum EventType {
-	'keydown' = 'keydown',
-	'keyup' = 'keyup',
-	'mousedown' = 'mousedown',
-	'mouseup' = 'mouseup',
-}
-type rsEvents = [EventType, string, string, string]
 
-type cbFun = (e: rsEvents, key: string) => void
-
-type RsOption = {
-	type?: EventType
-	key: string[]
-}
-let rs_instanse: Function | null
 function shortcut_fun() {
 	const home_win = getWins()['home']
-	home_win?.isVisible() ? home_win?.hide() : home_win?.showInactive()
+	home_win?.isVisible() ? home_win?.hide() : home_win?.show()
 	console.log('acclerator is ok')
 }
 
