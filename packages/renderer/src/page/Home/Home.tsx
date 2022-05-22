@@ -1,57 +1,74 @@
 import { useState, useEffect } from "react"
-type PlanItem = {
-	time: number
-	type: string
-	data: string | Blob
-	url?: string
-}
-
+import { PlanItem } from 'project/types/planList'
+import Icon from "src/components/Icon/Icon"
 const { ipcRenderer } = window
+
+import { format_className } from "src/util/tools"
+
+
+
 function Home() {
-	const [img_src, set_img_src] = useState('')
 	const [plan_list, set_plan_list] = useState<PlanItem[]>([])
 	useEffect(() => {
 		console.log('useEff')
 		ipcRenderer.removeAllListeners('home')
-		ipcRenderer.on('home', () => {
-			console.log(' 让我读取粘贴板')
+		ipcRenderer.on('home', (e, { type, data }) => {
+			if (type = 'clipboardData') set_plan_list(data)
 		})
 	}, [])
-	async function get_Clipboard_data() {
-		const clipboard_items = await window.navigator.clipboard.read()
-		const item = clipboard_items[0]
-		const type = item.types[0]
-		const ret = await item.getType(type)
-		const plan_item: PlanItem = {
-			time: new Date().getTime(),
-			type,
-			data: ret
-		}
-		switch (type) {
-			case 'text/plain':
-				plan_item.data = await ret.text()
-				break
-			case 'image/png':
-				plan_item.url = URL.createObjectURL(ret)
-				break
-		}
 
-
-		if (plan_list.length >= 20) plan_list.pop()
-		plan_list.unshift(plan_item)
-		set_plan_list([...plan_list])
+	function handle_plan_click(time: number) {
+		ipcRenderer.send('save-clipboard-data', time)
 	}
 
-
-	function set_Clipboard_data() { }
-
-
 	return (
-		<div className="drag text-green-500 w-screen h-screen bg-gray-50 rounded-2xl box-border py-3 px-5 select-none">
-			<button onClick={get_Clipboard_data} className="ring-4 ring-purple-400">读取</button>
-			<button onClick={set_Clipboard_data} className="ring-4 ring-purple-400">写入</button>
+		<div className="drag text-sm font-medium flex flex-col overflow-hidden  w-screen h-screen bg-gray-50 dark:text-gray-400 dark:bg-gray-800  box-border py-1 px-1 select-none">
 
-			{plan_list.map(v => (<p key={v.time}>{v.time}</p>))}
+
+
+			<div className=" flex mb-1 ">
+				<div className="rounded-md   hover:bg-gray-500  hover:bg-opacity-10  p-1 mr-1 ">
+					<Icon icon="icon-relieve-full" ></Icon>
+				</div>
+			</div>
+
+
+
+
+
+
+			<div className="flex-1 overflow-y-auto hidden-scroll-bar px-2 py-1">
+				{plan_list.map(v => (
+					<div onClick={() => {
+						handle_plan_click(v.time)
+					}} key={v.time} className="w-full hover:ring-1 mb-2 rounded-lg bg-gray-300 h-24 dark:bg-gray-900  overflow-hidden" >
+						{v.type === 'text'
+							? <div className="p-2 w-full h-full" children={v.data}></div>
+							: v.type === 'img'
+								? <div className="w-full h-full p-1  flex items-center justify-center">
+									<img className="max-h-full max-w-full  w-full h-full object-fit-contain" src={v.data} />
+								</div>
+								: ''
+						}
+
+					</div>
+
+
+				))}
+
+
+
+
+
+
+
+			</div>
+
+
+
+
+
+			<div></div>
 		</div>
 	)
 }
