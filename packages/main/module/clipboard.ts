@@ -3,7 +3,8 @@ import { PlanItem } from 'project/types/planList.d'
 import { clipboard, NativeImage } from 'electron'
 import { exec, ChildProcess } from 'child_process'
 import { EventEmitter } from 'events'
-
+import { getWins } from 'main/lib/window'
+let home_win = getWins()['home']
 class ListerClipboard extends EventEmitter {
 	private _child: ChildProcess | null = null
 	listering() {
@@ -43,6 +44,11 @@ class ClipboardModule extends ListerClipboard {
 		this.listering()
 		this.on('change', ({ type }) => {
 			this.saveToClipboardData(type)
+			if (!home_win) home_win = getWins()['home']
+			home_win?.webContents.send('home', {
+				type: 'clipboardData',
+				data: this._plan_list,
+			})
 		})
 	}
 
@@ -52,13 +58,16 @@ class ClipboardModule extends ListerClipboard {
 	}
 
 	private saveToClipboardData(type: 'text' | 'image') {
+		console.log(1)
 		if (
 			this._saceToClipItem &&
 			this._saceToClipItem.time ===
 				this._plan_list[this._saceToClipItem.key].time
-		)
+		) {
+			this._saceToClipItem = null
 			return
-
+		}
+		console.log(2)
 		const new_date = new Date().getTime()
 		this._plan_item.type = type
 		this._plan_item.time = new_date
@@ -110,6 +119,7 @@ class ClipboardModule extends ListerClipboard {
 			if (v.type === 'text') clipboard.writeText(v.data)
 
 			this._saceToClipItem = { time: v.time, key: i }
+			console.log('sace to clip')
 			return true
 		})
 	}

@@ -41,19 +41,12 @@ function useMainWin() {
 		if (url.startsWith('https:')) shell.openExternal(url)
 		return { action: 'deny' }
 	})
-	console.log(process.pid)
-	useHomeShortcut()
 
-	win.on('show', () => {
-		console.log('show')
-		win.webContents.send('home', {
-			type: 'clipboardData',
-			data: clipboardModule.plan_list,
-		})
-	})
+	useHomeShortcut()
 
 	win.on('blur', () => {
 		console.log('blur')
+		console.log(db.data.homeWinFixed)
 		if (!db.data.homeWinFixed) win.hide()
 	})
 
