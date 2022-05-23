@@ -7,10 +7,10 @@ import './samples/npm-esm-packages'
 import { unShortcut } from './module/shortcut'
 import { unCliboard, useClipboard } from './module/clipboard'
 app.dock.hide()
+
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration()
 
-// Set application name for Windows 10+ notifications
 if (process.platform === 'win32') app.setAppUserModelId(app.getName())
 if (!app.requestSingleInstanceLock()) {
 	app.quit()
@@ -20,7 +20,7 @@ app.whenReady().then(() => {
 	useMainWin()
 
 	useTrayMenu()
-	// useClipboard()
+	useClipboard()
 })
 
 app.on('window-all-closed', () => {
