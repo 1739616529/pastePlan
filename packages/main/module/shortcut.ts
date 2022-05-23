@@ -1,9 +1,7 @@
 import { globalShortcut, dialog } from 'electron'
 import { useLowDB } from '../config/index'
 import { getWins } from '../lib/window'
-// const { rsHook } = require('@tcardlab/rshook')
 const option = useLowDB()['option']
-
 function shortcut_fun() {
 	const home_win = getWins()['home']
 	home_win?.isVisible() ? home_win?.hide() : home_win?.show()
