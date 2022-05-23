@@ -23,7 +23,6 @@
     "electron-builder": "^23.0.3",
     "execa": "^6.1.0",
     "fs-extra": "^10.1.0",
-    "hotcakey": "^0.8.0",
     "postcss": "^8.4.13",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -39,8 +38,5 @@
   "env": {
     "VITE_DEV_SERVER_HOST": "127.0.0.1",
     "VITE_DEV_SERVER_PORT": 7777
-  },
-  "dependencies": {
-    "robotjs": "^0.6.0"
   }
 }
