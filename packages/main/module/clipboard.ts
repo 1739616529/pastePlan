@@ -3,56 +3,6 @@ import { PlanItem } from 'project/types/planList.d'
 import { clipboard, NativeImage } from 'electron'
 import { exec, ChildProcess } from 'child_process'
 import { EventEmitter } from 'events'
-let plan_list: PlanItem[] = []
-let plan_item: PlanItem = {
-	type: 'text',
-	time: 0,
-	data: '',
-}
-let saveToclipDate = 0
-let naiveImageEnum: { [key: string | number]: NativeImage } = {}
-
-function saveToClipboardData(type: 'text' | 'image') {
-	const new_date = new Date().getTime()
-	if (new_date - saveToclipDate <= 300) return
-	plan_item.type = type
-	plan_item.time = new_date
-
-	if (type === 'text') {
-		const text_ret = clipboard.readText()
-		plan_item.data = text_ret
-	}
-
-	if (type === 'image') {
-		const img_ret = clipboard.readImage()
-		let img_Base64 = img_ret.toDataURL()
-		const { width, height } = img_ret.getSize()
-		const ratio = width / height
-		if (ratio > 2.875) {
-			img_Base64 = img_ret
-				.resize({ width: 100 })
-				// .resize({ width: 268 })
-				.toDataURL()
-		} else {
-			img_Base64 = img_ret
-				.resize({ height: 60 })
-				// .resize({ height: 90 })
-				.toDataURL()
-		}
-
-		plan_item.data = img_Base64
-		naiveImageEnum[plan_item.time] = img_ret
-	}
-
-	if (plan_list.length >= 20) {
-		const item = plan_list.pop()
-		if (item && item.type === 'image') {
-			delete naiveImageEnum[item.time]
-		}
-	}
-	console.log(plan_item)
-	plan_list.unshift({ ...plan_item })
-}
 
 class ListerClipboard extends EventEmitter {
 	private _child: ChildProcess | null = null
@@ -75,34 +25,94 @@ class ListerClipboard extends EventEmitter {
 	}
 }
 
-let listen_clipboard: ListerClipboard | null
-export function useClipboard() {
-	listen_clipboard = new ListerClipboard()
-	listen_clipboard?.listering()
-	listen_clipboard?.on('change', ({ type }) => {
-		saveToClipboardData(type)
-	})
-}
+class ClipboardModule extends ListerClipboard {
+	private _plan_list: PlanItem[] = []
+	private _naiveImageEnum: { [key: string | number]: NativeImage } = {}
+	private _saceToClipItem!: { time: number; key: number } | null
+	private _plan_item: PlanItem = {
+		type: 'text',
+		time: 0,
+		data: '',
+	}
 
-export function unCliboard() {
-	listen_clipboard?.kill()
-}
+	public get plan_list() {
+		return this._plan_list
+	}
 
-export function getClipBoardData() {
-	return plan_list
-}
+	public useListen() {
+		this.listering()
+		this.on('change', ({ type }) => {
+			this.saveToClipboardData(type)
+		})
+	}
 
-export function saveToClipboard(time: number) {
-	plan_list.some((v) => {
-		if (v.time !== time) return
+	public unListen() {
+		this.kill()
+		this._saceToClipItem = null
+	}
 
-		if (v.type === 'image') {
-			clipboard.writeImage(naiveImageEnum[time])
+	private saveToClipboardData(type: 'text' | 'image') {
+		if (
+			this._saceToClipItem &&
+			this._saceToClipItem.time ===
+				this._plan_list[this._saceToClipItem.key].time
+		)
+			return
+
+		const new_date = new Date().getTime()
+		this._plan_item.type = type
+		this._plan_item.time = new_date
+
+		if (type === 'text') {
+			const text_ret = clipboard.readText()
+			this._plan_item.data = text_ret
 		}
 
-		if (v.type === 'text') clipboard.writeText(v.data)
+		if (type === 'image') {
+			const img_ret = clipboard.readImage()
+			let img_Base64 = img_ret.toDataURL()
+			const { width, height } = img_ret.getSize()
+			const ratio = width / height
+			if (ratio > 2.875) {
+				img_Base64 = img_ret
+					.resize({ width: 100 })
+					// .resize({ width: 268 })
+					.toDataURL()
+			} else {
+				img_Base64 = img_ret
+					.resize({ height: 60 })
+					// .resize({ height: 90 })
+					.toDataURL()
+			}
 
-		saveToclipDate = new Date().getTime()
-		return true
-	})
+			this._plan_item.data = img_Base64
+			this._naiveImageEnum[this._plan_item.time] = img_ret
+		}
+
+		if (this._plan_list.length >= 20) {
+			const item = this._plan_list.pop()
+			if (item && item.type === 'image') {
+				delete this._naiveImageEnum[item.time]
+			}
+		}
+		console.log(this._plan_item)
+		this._plan_list.unshift({ ...this._plan_item })
+	}
+
+	public saveToClipboard(time: number) {
+		this.plan_list.some((v, i) => {
+			if (v.time !== time) return
+
+			if (v.type === 'image') {
+				clipboard.writeImage(this._naiveImageEnum[time])
+			}
+
+			if (v.type === 'text') clipboard.writeText(v.data)
+
+			this._saceToClipItem = { time: v.time, key: i }
+			return true
+		})
+	}
 }
+
+export default new ClipboardModule()

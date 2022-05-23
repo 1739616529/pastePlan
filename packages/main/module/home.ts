@@ -3,7 +3,7 @@ import { app, shell, ipcMain, screen, globalShortcut, dialog } from 'electron'
 import { useLoadWinPath, useWin } from '../lib/window'
 import { join } from 'path'
 import { useHomeShortcut } from './shortcut'
-import { getClipBoardData, saveToClipboard } from './clipboard'
+import clipboardModule from './clipboard'
 const db = useLowDB()['option']
 function useMainWin() {
 	const { win, isExist } = useWin('home')({
@@ -48,7 +48,7 @@ function useMainWin() {
 		console.log('show')
 		win.webContents.send('home', {
 			type: 'clipboardData',
-			data: getClipBoardData(),
+			data: clipboardModule.plan_list,
 		})
 	})
 
@@ -58,7 +58,7 @@ function useMainWin() {
 	})
 
 	ipcMain.on('save-clipboard-data', (e, data: number) => {
-		saveToClipboard(data)
+		clipboardModule.saveToClipboard(data)
 		win.hide()
 	})
 }

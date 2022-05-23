@@ -5,7 +5,7 @@ import { clearWins } from './lib/window'
 import { useTrayMenu } from './module/tray'
 import './samples/npm-esm-packages'
 import { unShortcut } from './module/shortcut'
-import { unCliboard, useClipboard } from './module/clipboard'
+import clipboard_module from './module/clipboard'
 app.dock.hide()
 
 // Disable GPU Acceleration for Windows 7
@@ -20,7 +20,7 @@ app.whenReady().then(() => {
 	useMainWin()
 
 	useTrayMenu()
-	useClipboard()
+	clipboard_module.useListen()
 })
 
 app.on('window-all-closed', () => {
@@ -30,5 +30,5 @@ app.on('window-all-closed', () => {
 app.on('will-quit', () => {
 	clearWins()
 	unShortcut()
-	unCliboard
+	clipboard_module.unListen()
 })
