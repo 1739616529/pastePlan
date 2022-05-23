@@ -6,6 +6,7 @@ import { useTrayMenu } from './module/tray'
 import './samples/npm-esm-packages'
 import { unShortcut } from './module/shortcut'
 import clipboard_module from './module/clipboard'
+import './module/power'
 app.dock.hide()
 
 // Disable GPU Acceleration for Windows 7
