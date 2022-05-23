@@ -17,4 +17,7 @@ db.default(default_data)
 ipcMain.handle('getSetting', (e, data) => {
 	return db.data
 })
+ipcMain.on('setSetting', (e, data: KeyValue<OptionData>) => {
+	db.setData(data).write()
+})
 export default db

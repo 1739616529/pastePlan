@@ -36,10 +36,6 @@ function useSettingWin() {
 	win.loadURL(useLoadWinPath(page_name))
 	win.webContents.openDevTools()
 
-	ipcMain.on('setSetting', (e, data: KeyValue<OptionData>) => {
-		db.setData(data).write()
-	})
-
 	ipcMain.handle('getName', (e, data) => {
 		return process.execPath
 	})
