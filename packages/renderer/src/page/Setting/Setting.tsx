@@ -22,7 +22,7 @@ const { ipcRenderer } = window
 
 
 const defaultOptions: OptionDefaultData = {
-	selfStart: false, showHomeShortcut: ['Command', "Alt", "U"], homeWinFixed: false
+	selfStart: false, showHomeShortcut: ['Control', 'E'], homeWinFixed: false
 }
 
 

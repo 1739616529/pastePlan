@@ -7,7 +7,7 @@ const db = new JSONDB<OptionData>(file_path)
 // win		Ctrl		Win			Alt
 // mac		control   		command       Alt
 let default_data: OptionDefaultData = {
-	showHomeShortcut: ['Command', 'Alt', 'U'],
+	showHomeShortcut: ['Control', 'E'],
 	selfStart: false,
 	homeWinFixed: false,
 }

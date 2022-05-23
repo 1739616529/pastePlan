@@ -54,12 +54,12 @@ function useMainWin() {
 
 	win.on('blur', () => {
 		console.log('blur')
-		// win.hide()
+		if (!db.data.homeWinFixed) win.hide()
 	})
 
 	ipcMain.on('save-clipboard-data', (e, data: number) => {
 		clipboardModule.saveToClipboard(data)
-		win.hide()
+		if (!db.data.homeWinFixed) win.hide()
 	})
 }
 export { useMainWin }
