@@ -31,7 +31,7 @@ let db_option: OptionData
 
 function Setting() {
 	const [active_menu, set_active_menu] = useState<icons>(menus[0].icon)
-	const [options, set_options] = useState<OptionData>(defaultOptions)
+	const [options, set_options] = useState<OptionDefaultData>(defaultOptions)
 
 
 	// 后端获取配置
