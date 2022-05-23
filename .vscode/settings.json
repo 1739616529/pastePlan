@@ -2,5 +2,8 @@
 	"files.associations": {
 		".vue": "vue",
 		"ios": "cpp"
+	},
+	"gopls": {
+		"experimentalWorkspaceModule": true
 	}
 }
