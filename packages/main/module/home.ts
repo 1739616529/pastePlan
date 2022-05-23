@@ -24,7 +24,6 @@ function useMainWin() {
 	// 如果存在
 	if (isExist) return win.show()
 
-	win.webContents.openDevTools()
 	const url = useLoadWinPath('home')
 	win.loadURL(url)
 

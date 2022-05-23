@@ -37,6 +37,7 @@ function useWin(win_name: keyof PageList) {
 				},
 			})
 			wins[win_name] = win
+			if (!app.isPackaged) win.webContents.openDevTools()
 		}
 		return { win, isExist }
 	}

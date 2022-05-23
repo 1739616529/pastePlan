@@ -34,7 +34,6 @@ function useSettingWin() {
 	if (isExist) return win.show()
 
 	win.loadURL(useLoadWinPath(page_name))
-	win.webContents.openDevTools()
 
 	ipcMain.handle('getName', (e, data) => {
 		return process.execPath
