@@ -75,7 +75,7 @@ function Home() {
 						handle_plan_click(v.time)
 					}} key={v.time} className=" w-full hover:ring-1 mb-2 rounded-lg bg-gray-300 h-24 dark:bg-gray-900  overflow-hidden" >
 						{v.type === 'text'
-							? <div className="p-2 w-full h-full" children={v.data}></div>
+							? <div className="p-2 w-full h-full" children={v.data.substring(0, 150)}></div>
 							: v.type === 'image'
 								? <div className="w-full h-full p-1  flex items-center justify-center">
 									<img className="max-h-full max-w-full  w-full h-full object-fit-contain" src={v.data} />
