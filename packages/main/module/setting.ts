@@ -40,10 +40,6 @@ function useSettingWin() {
 		db.setData(data).write()
 	})
 
-	ipcMain.handle('getSetting', (e, data) => {
-		return db.data
-	})
-
 	ipcMain.handle('getName', (e, data) => {
 		return process.execPath
 	})
