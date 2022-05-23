@@ -3,7 +3,7 @@ export type ShortcutKey = string[]
 export interface OptionDefaultData {
 	showHomeShortcut: ['Command', 'Alt', 'U']
 	selfStart: false
-	homeWinFixed: false
+	homeWinFixed?: false
 }
 
 interface OptionData {

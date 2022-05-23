@@ -1,5 +1,5 @@
 export type PlanItem = {
 	time: number
-	type: 'img' | 'text'
+	type: 'image' | 'text'
 	data: string
 }
