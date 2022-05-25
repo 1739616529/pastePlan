@@ -3,6 +3,7 @@ import { format_className } from "src/util/tools"
 import Icon from "src/components/Icon/Icon"
 import Form from "src/components/Form/Form"
 import { useStore } from "src/store"
+import { observer } from "mobx-react"
 enum icons {
 	'icon-shezhi' = 'icon-shezhi',
 	"icon-kuaijiejian-" = 'icon-kuaijiejian-'
@@ -167,4 +168,4 @@ function Setting() {
 	)
 }
 
-export default Setting
+export default observer(Setting)
