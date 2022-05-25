@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { OptionData, option_item } from 'project/types/setting'
+import { OptionData, SetOption } from 'project/types/setting'
 const { ipcRenderer } = window;
 
 
@@ -13,7 +13,7 @@ export class RootStore {
 		})
 	}
 
-	setOption: option_item = (data) => {
+	setOption: SetOption = (data) => {
 		this.option = { ...this.option, ...data }
 		ipcRenderer.send('setSetting', data)
 	}

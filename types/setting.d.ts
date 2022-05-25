@@ -12,7 +12,7 @@ interface OptionData {
 	homeWinFixed: boolean
 }
 
-export type option_item = <
+export type SetOption = <
 	K extends keyof OptionData,
 	V extends OptionData[K]
->(data: { [key in K]: V }) => void
+	>(data: { [key in K]: V }) => void
