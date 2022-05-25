@@ -16,6 +16,7 @@ db.on('dataChange', (data) => {
 	if ('selfStart' in data) {
 		useSelfStart(data)
 		uploadTrayMenu()
+		console.log('change selfStart ', data)
 	}
 })
 
