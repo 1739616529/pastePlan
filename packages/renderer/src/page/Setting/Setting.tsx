@@ -2,8 +2,7 @@ import { useState } from "react"
 import { format_className } from "src/util/tools"
 import Icon from "src/components/Icon/Icon"
 import Form from "src/components/Form/Form"
-import { OptionDefaultData, option_item, OptionData } from 'project/types/setting'
-import { debounce } from 'project/packages/util/tools'
+import { useStore } from "src/store"
 enum icons {
 	'icon-shezhi' = 'icon-shezhi',
 	"icon-kuaijiejian-" = 'icon-kuaijiejian-'
@@ -17,45 +16,11 @@ const menus: menu[] = [
 	{ label: '快捷键', icon: icons["icon-kuaijiejian-"] },
 ]
 
-const { ipcRenderer } = window
-
-
-
-const defaultOptions: OptionDefaultData = {
-	selfStart: false, showHomeShortcut: ['Control', 'E'], homeWinFixed: false
-}
-
-
-let db_option: OptionData
-
 
 function Setting() {
 	const [active_menu, set_active_menu] = useState<icons>(menus[0].icon)
-	const [options, set_options] = useState<OptionDefaultData>(defaultOptions)
+	const { option, setOption } = useStore()['RootStore']
 
-
-	// 后端获取配置
-	if (!db_option) {
-		ipcRenderer.invoke('getSetting').then((val) => {
-			set_options(val)
-			db_option = val
-			console.log(val)
-		})
-	}
-
-
-
-
-	const set_options_fun: option_item = (data) => {
-		set_options((state) => {
-			return { ...state, ...data }
-		})
-
-	}
-
-	const set_option_to_db: option_item = (data) => {
-		ipcRenderer.send('setSetting', data)
-	}
 
 
 	function key_down_fun(fu: (string: string[]) => void) {
@@ -109,8 +74,7 @@ function Setting() {
 
 	function self_start_change(e: React.ChangeEvent<HTMLInputElement>) {
 		const data = { selfStart: e.target.checked }
-		set_options_fun(data)
-		set_option_to_db(data)
+		setOption(data)
 	}
 
 
@@ -157,7 +121,7 @@ function Setting() {
 
 
 
-								<input type="checkbox" checked={options.selfStart} value="" onChange={self_start_change} id="self-start-switch" className="sr-only peer" />
+								<input type="checkbox" checked={option.selfStart} value="" onChange={self_start_change} id="self-start-switch" className="sr-only peer" />
 
 
 
@@ -178,12 +142,12 @@ function Setting() {
 					<Form label-wrap={false}  >
 						<Form.Item label="打开粘贴板： " ><div tabIndex={0} onFocus={() => {
 							window.onkeydown = key_down_fun((val) => {
-								set_options_fun({ 'showHomeShortcut': val })
+								setOption({ 'showHomeShortcut': val })
 							})
 						}} onBlur={() => {
 							window.onkeydown = null
-							set_option_to_db({ 'showHomeShortcut': options.showHomeShortcut })
-						}} className="rounded outline-none px-1 ring-opacity-50 bg-gray-700 ring-0 ring-white focus:ring-4" >{options.showHomeShortcut.join('+')}</div>
+							setOption({ 'showHomeShortcut': option.showHomeShortcut })
+						}} className="rounded outline-none px-1 ring-opacity-50 bg-gray-700 ring-0 ring-white focus:ring-4" >{option.showHomeShortcut.join('+')}</div>
 						</Form.Item>
 					</Form>
 
@@ -198,16 +162,7 @@ function Setting() {
 
 
 				</div>
-
-
-
 			</div>
-
-
-
-
-
-
 		</div >
 	)
 }

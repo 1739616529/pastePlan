@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
+// import './store/index'
 import './samples/preload-module'
 import './styles/index.css'
 import './assets/icon-font.js'

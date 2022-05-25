@@ -1,23 +1,16 @@
 import { useState, useEffect } from "react"
+import { observer } from 'mobx-react'
 import { PlanItem } from 'project/types/planList'
 import Icon from "src/components/Icon/Icon"
 const { ipcRenderer } = window
 
+import { useStore } from 'src/store/index'
 
 import { format_className } from "src/util/tools"
-
-import { OptionDefaultData, option_item, OptionData } from 'project/types/setting'
-let def_option: OptionData = {
-	selfStart: false, showHomeShortcut: ['Control', 'E'], homeWinFixed: false
-}
-let db_option: OptionData
-
 function Home() {
 	const [plan_list, set_plan_list] = useState<PlanItem[]>([])
-
-	const [options, set_options] = useState<OptionData>(def_option)
+	const { option, setOption } = useStore()["RootStore"]
 	useEffect(() => {
-		console.log('useEff')
 		ipcRenderer.removeAllListeners('home')
 		ipcRenderer.on('home', (e, { type, data }) => {
 			console.log(type, data)
@@ -26,25 +19,8 @@ function Home() {
 	}, [])
 
 
-	// 后端获取配置
-	if (!db_option) {
-		ipcRenderer.invoke('getSetting').then((val: OptionData) => {
-			set_options(val)
-			console.log(val)
-			db_option = val
-		})
-	}
 
-	const set_options_fun: option_item = (data) => {
-		set_options((state) => {
-			return { ...state, ...data }
-		})
 
-	}
-
-	const set_option_to_db: option_item = (data) => {
-		ipcRenderer.send('setSetting', data)
-	}
 
 	function handle_plan_click(time: number) {
 		ipcRenderer.send('save-clipboard-data', time)
@@ -54,13 +30,11 @@ function Home() {
 		<div className="drag text-sm font-medium flex flex-col overflow-hidden  w-screen h-screen bg-gray-50 dark:text-gray-400 dark:bg-gray-800  box-border py-1 px-1 select-none">
 
 
-
-			<div className="flex mb-1" style={{ "zIndex": 999 }}>
+			<div className="flex mb-1">
 				<div onClick={() => {
-					set_option_to_db({ homeWinFixed: !options.homeWinFixed })
-					set_options_fun({ homeWinFixed: !options.homeWinFixed })
+					setOption({ homeWinFixed: !option.homeWinFixed })
 				}} className="rounded-md   hover:bg-gray-500  hover:bg-opacity-10  p-1 mr-1 ">
-					<Icon icon="icon-relieve-full" className={format_className(options.homeWinFixed ? "text-blue-500 dark:text-blue-700 transform rotate-270" : '')} ></Icon>
+					<Icon icon="icon-relieve-full" className={format_className(option.homeWinFixed ? "text-blue-500 dark:text-blue-700 transform rotate-270" : '')} ></Icon>
 				</div>
 			</div>
 
@@ -69,7 +43,7 @@ function Home() {
 
 
 
-			<div className="flex-1 no-drag overflow-y-auto hidden-scroll-bar px-2 py-1">
+			<div className={format_className("flex-1 no-drag overflow-y-auto hidden-scroll-bar px-2 py-1")}>
 				{plan_list.map(v => (
 					<div onClick={() => {
 						handle_plan_click(v.time)
@@ -105,4 +79,4 @@ function Home() {
 	)
 }
 
-export default Home
+export default observer(Home)
