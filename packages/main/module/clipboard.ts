@@ -82,8 +82,7 @@ class ClipboardModule extends ListerClipboard {
 			let img_Base64 = img_ret.toDataURL()
 			const { width, height } = img_ret.getSize()
 			const ratio = width / height
-			img_Base64 = img_ret.resize(ratio > 2.875 ? { width: 100 } : { height: 60 })
-				.toDataURL()
+			img_Base64 = img_ret.resize(ratio > 2.875 ? { width: 100 } : { height: 60 }).toDataURL()
 
 			// if (ratio > 2.875) {
 			// 	img_Base64 = img_ret
