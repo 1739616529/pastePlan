@@ -62,7 +62,7 @@ class ClipboardModule extends ListerClipboard {
 		if (
 			this._saceToClipItem &&
 			this._saceToClipItem.time ===
-				this._plan_list[this._saceToClipItem.key].time
+			this._plan_list[this._saceToClipItem.key].time
 		) {
 			this._saceToClipItem = null
 			return
@@ -82,17 +82,20 @@ class ClipboardModule extends ListerClipboard {
 			let img_Base64 = img_ret.toDataURL()
 			const { width, height } = img_ret.getSize()
 			const ratio = width / height
-			if (ratio > 2.875) {
-				img_Base64 = img_ret
-					.resize({ width: 100 })
-					// .resize({ width: 268 })
-					.toDataURL()
-			} else {
-				img_Base64 = img_ret
-					.resize({ height: 60 })
-					// .resize({ height: 90 })
-					.toDataURL()
-			}
+			img_Base64 = img_ret.resize(ratio > 2.875 ? { width: 100 } : { height: 60 })
+				.toDataURL()
+
+			// if (ratio > 2.875) {
+			// 	img_Base64 = img_ret
+			// 		.resize({ width: 100 })
+			// 		// .resize({ width: 268 })
+			// 		.toDataURL()
+			// } else {
+			// 	img_Base64 = img_ret
+			// 		.resize({ height: 60 })
+			// 		// .resize({ height: 90 })
+			// 		.toDataURL()
+			// }
 
 			this._plan_item.data = img_Base64
 			this._naiveImageEnum[this._plan_item.time] = img_ret

@@ -2,7 +2,7 @@ import { BrowserWindow, BrowserWindowConstructorOptions, app } from 'electron'
 import { resolve, join } from 'path'
 import { PageList } from 'types/window'
 
-export interface winOption extends BrowserWindowConstructorOptions {}
+export interface winOption extends BrowserWindowConstructorOptions { }
 const option: winOption = {
 	resizable: false,
 	acceptFirstMouse: true,
@@ -22,12 +22,10 @@ function useWin(win_name: keyof PageList) {
 		win: BrowserWindow
 		isExist: boolean
 	} {
-		let isExist = false
+		let isExist = true
 		let win = wins[win_name]
-		if (win !== undefined) {
-			console.error(`Window ${win_name} already exists`)
-			isExist = true
-		} else {
+		if (win === undefined) {
+			isExist = false
 			win = new BrowserWindow({
 				...option,
 				...custom_option,
@@ -59,9 +57,9 @@ function clearWin(win_name: keyof PageList) {
 function useLoadWinPath(path: string) {
 	return app.isPackaged
 		? `file://${resolve(
-				__dirname,
-				`../renderer/index.html#/${path}`
-		  )}`
+			__dirname,
+			`../renderer/index.html#/${path}`
+		)}`
 		: `http://${process.env['VITE_DEV_SERVER_HOST']}:${process.env['VITE_DEV_SERVER_PORT']}#/${path}`
 }
 
