@@ -13,8 +13,12 @@
 
 
 ###有亮色暗色两种主题 跟随系统变化
-![](./md/dark1.png)![](./md/dark2.png)![](./md/dark3.png)
-![](./md/light1.png)![](./md/light2.png)![](./md/light3.png)
+![](./md/dark1.png)
+![](./md/dark2.png)
+![](./md/dark3.png)
+![](./md/light1.png)
+![](./md/light2.png)
+![](./md/light3.png)
 
 
 目前还有点缺点 调出粘贴板的位置不能跟随当前鼠标位置而变化
