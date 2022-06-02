@@ -1,5 +1,6 @@
 一个 mac 系统的 剪切板软件
 
+前端用的react  后端用的  electron
 
 
 
